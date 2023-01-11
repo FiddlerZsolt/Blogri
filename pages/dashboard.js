@@ -58,7 +58,7 @@ export default function Dashboard() {
       <div>
         {posts.map((post) => (
           <Message {...post} key={post.id}>
-            <div className="flex justify-between items-center max-w-md">
+            <div className="flex flex-col items-start justify-between sm:items-center max-w-md sm:flex-row">
               <button
                 onClick={() => deletePost(post.id)}
                 className="text-pink-600 dark:text-red-400 flex items-center justify-center gap-2 py-2 text-onSubmit"
