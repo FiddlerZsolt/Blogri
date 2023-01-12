@@ -11,12 +11,13 @@ import { toast } from "react-toastify";
 import Comment from "../components/comment";
 import Message from "../components/message";
 import { auth, db } from "../utils/firebase";
+import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 
 export default function Details() {
   const route = useRouter();
   const routeData = route.query;
   const [message, setMessage] = useState("");
-  const [allMessages, setAllMessages] = useState([]);
+  const [post, setPost] = useState([]);
 
   // Submit a message
   const submitMessage = async () => {
@@ -32,8 +33,7 @@ export default function Details() {
       return;
     }
 
-    await updateDoc(
-      doc(db, "posts", routeData.id), {
+    await updateDoc(doc(db, "posts", routeData.id), {
       comments: arrayUnion({
         message,
         avatar: auth.currentUser.photoURL,
@@ -47,10 +47,9 @@ export default function Details() {
 
   // Get comments
   const getComments = async () => {
-    const comments = onSnapshot(
-      doc(db, "posts", routeData.id),
-      (snapshot) => setAllMessages(snapshot.data()?.comments)
-    );
+    const comments = onSnapshot(doc(db, "posts", routeData.id), (snapshot) => {
+      setPost(snapshot.data())
+    });
     return comments;
   };
 
@@ -61,7 +60,17 @@ export default function Details() {
 
   return (
     <div>
-      <Message {...routeData}></Message>
+      <Message {...routeData}>
+        {auth.currentUser && (
+          <button className="text-lg" onClick={() => like(post)}>
+            {post?.liked > 0 ? (
+              <BsSuitHeartFill className="text-red-400" />
+            ) : (
+              <BsSuitHeart />
+            )}
+          </button>
+        )}
+      </Message>
       <div className="my-4">
         {auth.currentUser && (
           <div className="flex">
@@ -84,7 +93,7 @@ export default function Details() {
         )}
         <div className="py-6">
           <h2 className="font-bold dark:text-sky-100">Hozzászólások</h2>
-          {allMessages?.map((message) => (
+          {post.comments?.map((message) => (
             <Comment {...message} key={message.time} />
           ))}
         </div>

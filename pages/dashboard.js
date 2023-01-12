@@ -6,6 +6,7 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -30,7 +31,8 @@ export default function Dashboard() {
 
     const q = query(
 			collection(db, "posts"),
-			where("user", "==", user.uid)
+			where("user", "==", user.uid),
+      orderBy("timestamp", "desc")
 		);
 
     const data = onSnapshot(q, (snapshot) => {

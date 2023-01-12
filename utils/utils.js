@@ -3,3 +3,12 @@ export function secondsToDateTimeString(seconds) {
     timeZone: "UTC",
   });
 }
+
+export function isValidJSON(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}

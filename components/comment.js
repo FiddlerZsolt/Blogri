@@ -1,3 +1,5 @@
+import { BsPersonCircle } from "react-icons/bs";
+
 export default function Comment({time, avatar, userName, message}) {
   return (
     <div
@@ -5,11 +7,14 @@ export default function Comment({time, avatar, userName, message}) {
       key={time}
     >
       <div className="flex items-center gap-2 mb-4">
-        <img
+        <div className="w-10 h-10 rounded-full">
+          <BsPersonCircle className="w-10 h-10 rounded-full" />
+        </div>
+        {/* <img
           className="rounded-full w-10 h-10 border-2"
           src={avatar}
           alt=""
-        />
+        /> */}
         <h2>{userName}</h2>
       </div>
       <h2>{message}</h2>

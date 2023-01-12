@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { auth } from "../utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { BsPencilFill, BsPlusCircle } from "react-icons/bs";
+import { BsPencilFill, BsPlusCircle,BsPersonCircle } from "react-icons/bs";
 
 export default function Nav() {
   const [user, loading] = useAuthState(auth);
@@ -34,11 +34,14 @@ export default function Nav() {
               </button>
             </Link>
             <Link href="/dashboard">
-              <img
+              <div className="w-10 h-10 rounded-full">
+                <BsPersonCircle className="w-10 h-10 rounded-full text-slate-800 dark:text-white" />
+              </div>
+              {/* <img
                 className="w-12 h-12 rounded-full cursor-pointer border-2"
                 src={user.photoURL}
                 alt="user picture"
-              />
+              /> */}
             </Link>
           </div>
         )}
