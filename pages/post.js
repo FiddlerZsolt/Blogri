@@ -47,10 +47,11 @@ export default function Post() {
     inactive: "text-white",
   };
 
-  lowlight.registerLanguage("html", html);
-  lowlight.registerLanguage("css", css);
-  lowlight.registerLanguage("js", js);
-  lowlight.registerLanguage("ts", ts);
+  const supportedLanguages = [ html, css, js, ts ]
+
+  supportedLanguages.map(
+    (lang) => lowlight.registerLanguage(`${lang}`, lang)
+  )
 
   const editor = useEditor({
     extensions: [
@@ -111,15 +112,13 @@ export default function Post() {
 
     if (post?.hasOwnProperty("id")) {
       // Update post
-      const docRef = doc(db, "posts", post.id);
       const updatedPost = { ...post, updatedAt: serverTimestamp() };
-      await updateDoc(docRef, updatedPost);
+      await updateDoc(doc(db, "posts", post.id), updatedPost);
       toast.success("Sikeres mentés", toastOptions);
       return route.push("/dashboard");
     } else {
       // Create new post
-      const collectionRef = collection(db, "posts");
-      await addDoc(collectionRef, {
+      await addDoc(collection(db, "posts"), {
         ...post,
         timestamp: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -174,7 +173,7 @@ export default function Post() {
   }, [user, loading, routeData, editor]);
 
   return (
-    <div className="my-10 p-6 shadow-lg rounded-lg max-w-md mx-auto dark:bg-slate-700 dark:text-sky-100">
+    <div className="my-10 p-6 shadow-lg rounded-lg mx-auto dark:bg-slate-700 dark:text-sky-100">
       <h1 className="text-2xl font-bold mb-3">
         {post?.hasOwnProperty("id")
           ? "Bejegyzés szerkesztése"

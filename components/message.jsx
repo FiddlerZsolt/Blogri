@@ -10,7 +10,7 @@ import css from "highlight.js/lib/languages/css";
 import js from "highlight.js/lib/languages/javascript";
 import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
-import CodeBlockComponent from "../components/CodeBlockComponent";
+import CodeBlockComponent from "./CodeBlockComponent";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
 export default function Message({
